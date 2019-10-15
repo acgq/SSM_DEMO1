@@ -15,18 +15,21 @@
     <mvc:annotation-driven/>
     <!--处理静态资源-->
     <mvc:default-servlet-handler/>
-
+    <mvc:resources mapping="/static/**" location="static/"/>
+    <!-- 注解扫描-->
     <context:component-scan base-package="cn.acgq.web.controller"/>
+    <!--视图解析-->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
     <!--    登陆拦截器-->
-<!--    <mvc:interceptors>
+    <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/**"/>  &lt;!&ndash;拦截所有请求 /**&ndash;&gt;
-            <bean class="cn.acgq.web.interceptor.LoginInteceptor"></bean>
+            <!--拦截所有请求 /**-->
+            <mvc:mapping path="/**"/>
+            <bean class="cn.acgq.web.interceptor.LoginInteceptor"/>
         </mvc:interceptor>
-    </mvc:interceptors>-->
+    </mvc:interceptors>
 </beans>
