@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.acgq.dao.DepartmentMapper">
+
+    <sql id="fields">
+        dept_id,dept_name, dept_leader
+    </sql>
+    <resultMap id="deptResult" type="cn.acgq.model.Department">
+        <id column="dept_id" property="deptId"></id>
+        <result column="dept_name" property="deptName"></result>
+        <result column="dept_leader" property="deptLeader"></result>
+    </resultMap>
+<!--insert-->
+    <insert id="insertDept">
+        insert into tbl_dept
+            (dept_id,dept_name, dept_leader)
+        values
+            (#{dept.deptId},#{dept.deptName},#{dept.deptLeader})
+    </insert>
+<!--    删除-->
+    <delete id="deleteDeptById" parameterType="int">
+        delete from
+            tbl_dept
+        where
+            dept_id=#{deptId}
+    </delete>
+<!--    update-->
+    <update id="updateDeptById">
+        update tbl_dept
+        set
+            dept_name=#{dept.deptName},
+            dept_leader=#{dept.deptLeader}
+        where
+            dept_id=#{deptId}
+    </update>
+<!--    select-->
+    <select id="selectOneById" parameterType="int" resultMap="deptResult">
+        select
+            <include refid="fields"></include>
+        from
+            tbl_dept
+        where
+            dept_id=#{id}
+    </select>
+    <select id="selectOneByLeader" resultMap="deptResult">
+        select
+            <include refid="fields"></include>
+        from
+            tbl_dept
+        where
+            dept_leader=#{deptLeader}
+    </select>
+    <select id="selectOneByName" resultMap="deptResult">
+        select
+            <include refid="fields"></include>
+        from
+            tbl_dept
+        where
+            dept_name=#{deptName}
+    </select>
+    <select id="selectDeptList" resultMap="deptResult">
+        select
+        <include refid="fields"></include>
+        from
+            tbl_dept
+    </select>
+
+    <select id="selectDeptsByLimitAndOffset" resultMap="deptResult">
+        select
+            <include refid="fields"></include>
+        from
+            tbl_dept
+        limit
+            #{offset},#{limit}
+    </select>
+    <select id="countDepts" resultType="int">
+        select
+            count(*)
+        from
+            tbl_dept
+    </select>
+
+
+</mapper>
