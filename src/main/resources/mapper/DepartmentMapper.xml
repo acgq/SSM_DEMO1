@@ -65,7 +65,6 @@
         from
             tbl_dept
     </select>
-
     <select id="selectDeptsByLimitAndOffset" resultMap="deptResult">
         select
             <include refid="fields"></include>
@@ -80,6 +79,4 @@
         from
             tbl_dept
     </select>
-
-
 </mapper>

@@ -126,6 +126,18 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>6.0.7</version>
+                <configuration>
+                    <url>
+                        jdbc:mysql://localhost:33060/ssm_demo1?useUnicode=true&amp;characterEncoding=UTF-8
+                    </url>
+                    <user>root</user>
+                    <password>123456</password>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

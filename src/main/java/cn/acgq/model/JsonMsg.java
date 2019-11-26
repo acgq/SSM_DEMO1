@@ -6,24 +6,27 @@ import java.util.Map;
 public class JsonMsg {
     private String msg;
     private int code;
-    private Map<String,Object> extendInfo=new HashMap<>();
+    private Map<String, Object> extendInfo = new HashMap<>();
 
-    public static JsonMsg success(){
-        JsonMsg jsonMsg=new JsonMsg();
+    public static JsonMsg success() {
+        JsonMsg jsonMsg = new JsonMsg();
         jsonMsg.setCode(100);
         jsonMsg.setMsg("操作成功");
         return jsonMsg;
     }
-    public static JsonMsg fail(){
-        JsonMsg jsonMsg=new JsonMsg();
+
+    public static JsonMsg fail() {
+        JsonMsg jsonMsg = new JsonMsg();
         jsonMsg.setCode(101);
         jsonMsg.setMsg("操作失败!");
         return jsonMsg;
     }
-    public JsonMsg addInfo(String key,Object obj){
+
+    public JsonMsg addInfo(String key, Object obj) {
         extendInfo.put(key, obj);
         return this;
     }
+
     public String getMsg() {
         return msg;
     }

@@ -20,6 +20,7 @@
     <context:component-scan base-package="cn.acgq.web.controller"/>
     <!--视图解析-->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<!--        <property name="contentType" value="text/html;charset=UTF-8"/>-->
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
@@ -29,7 +30,8 @@
         <mvc:interceptor>
             <!--拦截所有请求 /**-->
             <mvc:mapping path="/**"/>
-            <bean class="cn.acgq.web.interceptor.LoginInteceptor"/>
+            <bean class="cn.acgq.web.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
 </beans>

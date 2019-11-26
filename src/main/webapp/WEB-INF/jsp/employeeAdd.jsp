@@ -9,7 +9,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title">员工新增</h4>
             </div>
             <div class="modal-body">
@@ -17,14 +18,16 @@
                     <div class="form-group">
                         <label for="add_inputName" class="col-sm-2 control-label">姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="empName" class="form-control" id="add_inputName" placeholder="如：张三">
+                            <input type="text" name="empName" class="form-control" id="add_inputName"
+                                   placeholder="如：张三">
                             <span id="helpBlock_add_inputName" class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="add_inputEmail" class="col-sm-2 control-label">邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" name="empEmail" class="form-control" id="add_inputEmail" placeholder="zs@qq.com">
+                            <input type="email" name="empEmail" class="form-control" id="add_inputEmail"
+                                   placeholder="zs@qq.com">
                             <span id="helpBlock_add_inputEmail" class="help-block"></span>
                         </div>
                     </div>
@@ -44,8 +47,6 @@
                         <div class="col-sm-8">
                             <div class="checkbox">
                                 <select class="form-control" name="deptId" id="add_department">
-                                   <%-- <option value="1">CEO</option>--%>
-
                                 </select>
                             </div>
                         </div>
@@ -67,12 +68,11 @@
     //=======0 点击 员工新增按钮，发送AJAX请求查询部门列表信息，弹出模态框，
     // 将查询得到的部门列表信息显示在对应模态框中部门信息处。=============================
     $(".emp_add_btn").click(function () {
-
         $.ajax({
-            url:"/hrms/dept/getDeptName",
-            type:"GET",
-            success:function (result) {
-                if (result.code == 100){
+            url: "/hrms/dept/getDeptName",
+            type: "GET",
+            success: function (result) {
+                if (result.code == 100) {
                     $.each(result.extendInfo.departmentList, function () {
                         var optionEle = $("<option></option>").append(this.deptName).attr("value", this.deptId);
                         optionEle.appendTo("#add_department");
@@ -82,8 +82,8 @@
         });
 
         $('.emp-add-modal').modal({
-            backdrop:static,
-            keyboard:true
+            backdrop: static,
+            keyboard: true
         });
     });
 
@@ -91,16 +91,16 @@
     $("#add_inputName").change(function () {
         var empName = $("#add_inputName").val();
         $.ajax({
-            url:"/hrms/emp/checkEmpExists/"+empName,
-            type:"GET",
-            data:"empName="+empName,
-            success:function (result) {
-                if (result.code == 100){
+            url: "/hrms/emp/checkEmpExists/" + empName,
+            type: "GET",
+            data: "empName=" + empName,
+            success: function (result) {
+                if (result.code == 100) {
                     $("#add_inputName").parent().parent().removeClass("has-error");
                     $("#add_inputName").parent().parent().addClass("has-success");
                     $("#helpBlock_add_inputName").text("用户名可用！");
                     $(".emp_save_btn").attr("btn_name_exists", "success");
-                }else {
+                } else {
                     $("#add_inputName").parent().parent().removeClass("has-success");
                     $("#add_inputName").parent().parent().addClass("has-error");
                     $("#helpBlock_add_inputName").text(result.extendInfo.name_reg_error);
@@ -112,39 +112,37 @@
 
     //3 保存
     $(".emp_save_btn").click(function () {
-
         //1 获取到第3步：$(".emp_save_btn").attr("btn_name_exists", "success");中btn_name_exists的值
         // btn_name_exists = error，就是姓名重复
-        if($(".emp_save_btn").attr("btn_name_exists") == "error"){
+        if ($(".emp_save_btn").attr("btn_name_exists") == "error") {
             return false;
         }
-
         //================2 对输入的姓名和邮箱格式进行验证===============
         var inputName = $("#add_inputName").val();
         var inputEmail = $("#add_inputEmail").val();
         //验证格式。姓名：2-5位中文或6-16位英文和数字组合；
         var regName = /(^[a-zA-Z0-9_-]{3,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
         var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
-        if (!regName.test(inputName)){
+        if (!regName.test(inputName)) {
             alert("测试：输入姓名格式不正确！");
             //输入框变红
             $("#add_inputName").parent().parent().addClass("has-error");
             //输入框下面显示红色提示信息
             $("#helpBlock_add_inputName").text("输入姓名为2-5位中文或6-16位英文和数字组合");
             return false;
-        }else {
+        } else {
             //移除格式
             $("#add_inputName").parent().parent().removeClass("has-error");
             $("#add_inputName").parent().parent().addClass("has-success");
             $("#helpBlock_add_inputName").hide();
         }
-        if (!regEmail.test(inputEmail)){
+        if (!regEmail.test(inputEmail)) {
             //输入框变红
             $("#add_inputEmail").parent().parent().addClass("has-error");
             //输入框下面显示红色提示信息
             $("#helpBlock_add_inputEmail").text("输入邮箱格式不正确！");
             return false;
-        }else {
+        } else {
             //移除格式
             $("#add_inputEmail").parent().parent().removeClass("has-error");
             $("#add_inputName").parent().parent().addClass("has-success");
@@ -152,22 +150,21 @@
         }
 
 
-
         $.ajax({
-            url:"/hrms/emp/addEmp",
-            type:"POST",
-            data:$(".add_emp_form").serialize(),
-            success:function (result) {
-                if (result.code == 100){
+            url: "/hrms/emp/addEmp",
+            type: "POST",
+            data: $(".add_emp_form").serialize(),
+            success: function (result) {
+                if (result.code == 100) {
                     alert("员工新增成功");
                     $('#emp-add-modal').modal("hide");
                     //跳往最后一页，由于新增记录，所以要重新查询总页数
                     $.ajax({
-                        url:"/hrms/emp/getTotalPages",
-                        type:"GET",
-                        success:function (result) {
+                        url: "/hrms/emp/getTotalPages",
+                        type: "GET",
+                        success: function (result) {
                             var totalPage = result.extendInfo.totalPages;
-                            window.location.href="/hrms/emp/getEmpList?pageNo="+totalPage;
+                            window.location.href = "/hrms/emp/getEmpList?pageNo=" + totalPage;
                         }
                     })
                 } else {
